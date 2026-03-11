@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>VitD Alert — Get Started</title>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --gold: #F5A623; --gold-light: #FFD580;
+  --dark: #0F0D0A; --dark2: #1A1710; --dark3: #252218;
+  --cream: #FAF6EE; --muted: #8A8270;
+  --green: #4CAF82; --red: #E8534A;
+}
+body { font-family: 'Cabinet Grotesk', sans-serif; background: var(--dark); color: var(--cream); min-height: 100vh; }
+
+.bg {
+  position: fixed; inset: 0; z-index: 0;
+  background: radial-gradient(ellipse at 80% 10%, #1f1500 0%, transparent 50%),
+              radial-gradient(ellipse at 20% 80%, #0a1a00 0%, transparent 50%);
+}
+.sun-orb {
+  position: fixed; width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(245,166,35,0.07) 0%, transparent 70%);
+  top: -150px; right: -150px; animation: breathe 5s ease-in-out infinite; z-index: 0;
+}
+@keyframes breathe { 0%,100%{transform:scale(1);opacity:.7} 50%{transform:scale(1.1);opacity:1} }
+
+.wrapper { position: relative; z-index: 2; max-width: 460px; margin: 0 auto; padding: 40px 20px 80px; }
+
+/* Hero */
+.hero { text-align: center; padding: 48px 0 40px; }
+.hero-tag { font-size: 11px; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--gold); opacity: 0.8; margin-bottom: 16px; display: block; }
+.hero-title { font-family: 'Instrument Serif', serif; font-size: clamp(2.4rem, 10vw, 3.5rem); font-style: italic; line-height: 1.1; margin-bottom: 16px; }
+.hero-title span { color: var(--gold); }
+.hero-sub { font-size: 15px; color: var(--muted); line-height: 1.7; max-width: 320px; margin: 0 auto 32px; }
+
+.hero-badges { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+.badge { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 100px; padding: 6px 14px; font-size: 12px; font-weight: 600; color: var(--muted); }
+
+/* Steps */
+.steps { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; }
+.step { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; position: relative; }
+.step:not(:last-child)::after { content: ''; position: absolute; top: 14px; left: 60%; width: 80%; height: 1px; background: rgba(255,255,255,0.08); }
+.step-num { width: 28px; height: 28px; border-radius: 50%; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--muted); transition: all 0.3s; }
+.step.active .step-num { background: var(--gold); color: var(--dark); border-color: var(--gold); }
+.step.done .step-num { background: var(--green); color: white; border-color: var(--green); }
+.step-label { font-size: 10px; color: var(--muted); text-align: center; }
+
+/* Cards */
+.card { background: var(--dark2); border: 1px solid rgba(255,255,255,0.07); border-radius: 24px; padding: 28px; margin-bottom: 16px; }
+.card-title { font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 20px; }
+
+/* Form fields */
+.field { margin-bottom: 16px; }
+.field label { display: block; font-size: 12px; font-weight: 700; color: var(--muted); margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; }
+.field input {
+  width: 100%; padding: 14px 16px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px; color: var(--cream);
+  font-family: 'Cabinet Grotesk', sans-serif; font-size: 15px;
+  outline: none; transition: border-color 0.2s;
+}
+.field input:focus { border-color: var(--gold); background: rgba(245,166,35,0.04); }
+.field input::placeholder { color: var(--muted); }
+
+/* Skin picker */
+.skin-opts { display: flex; gap: 10px; }
+.skin-opt {
+  flex: 1; padding: 14px 8px; border-radius: 14px;
+  border: 2px solid rgba(255,255,255,0.06); background: transparent;
+  cursor: pointer; transition: all 0.2s;
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-family: 'Cabinet Grotesk', sans-serif; color: var(--muted); font-size: 12px; font-weight: 700;
+}
+.skin-swatch { width: 32px; height: 32px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.1); }
+.skin-opt[data-skin="light"] .skin-swatch { background: #FFD9B7; }
+.skin-opt[data-skin="medium"] .skin-swatch { background: #C68642; }
+.skin-opt[data-skin="dark"] .skin-swatch { background: #5C3317; }
+.skin-opt.active { border-color: var(--gold); background: rgba(245,166,35,0.06); color: var(--cream); }
+
+/* Location */
+.loc-detect {
+  width: 100%; padding: 14px; border-radius: 12px;
+  background: rgba(245,166,35,0.08); border: 1px solid rgba(245,166,35,0.2);
+  color: var(--gold); font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 14px; font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.loc-detect:hover { background: rgba(245,166,35,0.14); }
+.loc-status { margin-top: 10px; font-size: 13px; color: var(--muted); min-height: 20px; }
+.loc-status.ok { color: var(--green); }
+.loc-status.err { color: var(--red); }
+
+/* ntfy instruction */
+.ntfy-box {
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px; padding: 16px; margin-bottom: 16px;
+}
+.ntfy-steps { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+.ntfy-steps li { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--muted); line-height: 1.5; }
+.ntfy-steps li span { background: var(--gold); color: var(--dark); width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; flex-shrink: 0; margin-top: 1px; }
+.ntfy-topic { font-family: monospace; background: rgba(245,166,35,0.1); color: var(--gold); padding: 2px 8px; border-radius: 6px; font-size: 13px; }
+
+/* Submit */
+.submit-btn {
+  width: 100%; padding: 20px; background: var(--gold); border: none;
+  border-radius: 18px; font-family: 'Cabinet Grotesk', sans-serif;
+  font-size: 17px; font-weight: 900; color: var(--dark); cursor: pointer;
+  transition: all 0.2s; position: relative; overflow: hidden;
+}
+.submit-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%); }
+.submit-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(245,166,35,0.3); }
+.submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+/* Success */
+.success-screen {
+  display: none; text-align: center; padding: 60px 20px;
+  animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1);
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+.success-icon { font-size: 64px; margin-bottom: 24px; display: block; animation: pop 0.5s cubic-bezier(0.16,1,0.3,1); }
+@keyframes pop { from{transform:scale(0)} to{transform:scale(1)} }
+.success-title { font-family: 'Instrument Serif', serif; font-size: 2.2rem; font-style: italic; margin-bottom: 12px; }
+.success-title span { color: var(--gold); }
+.success-sub { font-size: 15px; color: var(--muted); line-height: 1.7; }
+
+.spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(0,0,0,0.2); border-top-color: var(--dark); border-radius: 50%; animation: spin 0.7s linear infinite; vertical-align: middle; margin-right: 8px; }
+@keyframes spin { to{transform:rotate(360deg)} }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="sun-orb"></div>
+
+<div class="wrapper">
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-tag">☀️ Free Forever</span>
+    <h1 class="hero-title">Never Miss Your<br/><span>Vit D Window</span></h1>
+    <p class="hero-sub">Subscribe once. Get push notifications every time UV is perfect for natural Vitamin D — based on your exact location.</p>
+    <div class="hero-badges">
+      <span class="badge">📍 Location-aware</span>
+      <span class="badge">🔔 Push notifications</span>
+      <span class="badge">🕘 9 AM – 5 PM daily</span>
+      <span class="badge">🆓 Always free</span>
+    </div>
+  </div>
+
+  <!-- Progress steps -->
+  <div class="steps" id="steps">
+    <div class="step active" id="step1"><div class="step-num">1</div><div class="step-label">Your Info</div></div>
+    <div class="step" id="step2"><div class="step-num">2</div><div class="step-label">Location</div></div>
+    <div class="step" id="step3"><div class="step-num">3</div><div class="step-label">Notify</div></div>
+  </div>
+
+  <!-- Form -->
+  <div id="formArea">
+
+    <!-- Step 1: Info -->
+    <div class="card" id="cardInfo">
+      <div class="card-title">👤 Your Details</div>
+      <div class="field">
+        <label>Your Name</label>
+        <input type="text" id="name" placeholder="e.g. Rithik" />
+      </div>
+      <div class="field">
+        <label>🎨 Skin Tone</label>
+        <div class="skin-opts">
+          <button class="skin-opt" data-skin="light" onclick="setSkin('light')"><div class="skin-swatch"></div>Light</button>
+          <button class="skin-opt active" data-skin="medium" onclick="setSkin('medium')"><div class="skin-swatch"></div>Medium</button>
+          <button class="skin-opt" data-skin="dark" onclick="setSkin('dark')"><div class="skin-swatch"></div>Dark</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Location -->
+    <div class="card" id="cardLocation">
+      <div class="card-title">📍 Your Location</div>
+      <button class="loc-detect" onclick="detectLocation()">🎯 Detect My Location Automatically</button>
+      <div class="loc-status" id="locStatus">Tap above to detect your location</div>
+    </div>
+
+    <!-- Step 3: ntfy setup -->
+    <div class="card" id="cardNtfy">
+      <div class="card-title">🔔 Set Up Notifications</div>
+      <div class="ntfy-box">
+        <div style="font-size:14px;font-weight:700;margin-bottom:4px;">Install ntfy on your phone</div>
+        <ul class="ntfy-steps">
+          <li><span>1</span>Download <strong style="color:var(--cream)">ntfy</strong> from Play Store or App Store</li>
+          <li><span>2</span>Open ntfy → tap <strong style="color:var(--cream)">"+"</strong> → Subscribe to topic</li>
+          <li><span>3</span>Enter your unique topic below 👇</li>
+        </ul>
+      </div>
+      <div class="field">
+        <label>Your Unique ntfy Topic</label>
+        <input type="text" id="ntfyTopic" placeholder="e.g. vitdalert-rithik" oninput="updateTopic()"/>
+      </div>
+      <div style="font-size:13px;color:var(--muted);margin-top:-8px;">
+        Subscribe to <span class="ntfy-topic" id="topicPreview">vitdalert-yourname</span> in the ntfy app
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button class="submit-btn" id="submitBtn" onclick="register()">
+      ☀️ Start Getting Alerts — It's Free
+    </button>
+
+  </div>
+
+  <!-- Success Screen -->
+  <div class="success-screen" id="successScreen">
+    <span class="success-icon">🎉</span>
+    <div class="success-title">You're all set,<br/><span id="successName">Friend</span>!</div>
+    <p class="success-sub" style="margin-top:16px;">
+      Check your ntfy app — you should have a welcome notification!<br/><br/>
+      From now on, you'll get a push alert every time UV is perfect for Vitamin D in your area. <strong style="color:var(--cream)">No action needed — just go outside when we ping you! ☀️</strong>
+    </p>
+  </div>
+
+</div>
+
+<script>
+  // Replace this with your Railway backend URL after deploying
+  const API_URL = "https://vitd-alert-production.up.railway.app";
+
+  let lat = null, lon = null, city = "Unknown";
+  let skin = "medium";
+
+  function setSkin(s) {
+    skin = s;
+    document.querySelectorAll('.skin-opt').forEach(b => b.classList.toggle('active', b.dataset.skin === s));
+    markStep(1);
+  }
+
+  function updateTopic() {
+    const val = document.getElementById('ntfyTopic').value || 'vitdalert-yourname';
+    document.getElementById('topicPreview').textContent = val;
+    markStep(3);
+  }
+
+  function markStep(n) {
+    const stepEl = document.getElementById(`step${n}`);
+    stepEl.className = 'step done';
+    stepEl.querySelector('.step-num').textContent = '✓';
+    const next = document.getElementById(`step${n+1}`);
+    if (next) next.className = 'step active';
+  }
+
+  async function detectLocation() {
+    const btn = document.querySelector('.loc-detect');
+    const status = document.getElementById('locStatus');
+    btn.textContent = 'Detecting...';
+    btn.disabled = true;
+
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+      lat = pos.coords.latitude;
+      lon = pos.coords.longitude;
+
+      try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+        const data = await res.json();
+        city = data.address.city || data.address.town || data.address.village || 'Your Area';
+      } catch { city = 'Your Area'; }
+
+      status.textContent = `✓ Detected: ${city} (${lat.toFixed(3)}°N, ${lon.toFixed(3)}°E)`;
+      status.className = 'loc-status ok';
+      btn.textContent = '✓ Location Detected — Update';
+      btn.disabled = false;
+      markStep(2);
+    }, () => {
+      status.textContent = '✗ Permission denied. Please allow location access.';
+      status.className = 'loc-status err';
+      btn.textContent = '🎯 Try Again';
+      btn.disabled = false;
+    });
+  }
+
+  async function register() {
+    const name = document.getElementById('name').value.trim();
+    const topic = document.getElementById('ntfyTopic').value.trim();
+
+    if (!name) return alert('Please enter your name!');
+    if (!lat || !lon) return alert('Please detect your location first!');
+    if (!topic) return alert('Please enter your ntfy topic!');
+
+    const btn = document.getElementById('submitBtn');
+    btn.innerHTML = '<span class="spinner"></span>Setting up your alerts...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch(`${API_URL}/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, lat, lon, skin_tone: skin, ntfy_topic: topic, city })
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('formArea').style.display = 'none';
+        document.getElementById('steps').style.display = 'none';
+        document.getElementById('successName').textContent = name;
+        document.getElementById('successScreen').style.display = 'block';
+      } else {
+        alert('Something went wrong. Try again!');
+        btn.innerHTML = '☀️ Start Getting Alerts — It\'s Free';
+        btn.disabled = false;
+      }
+    } catch (e) {
+      alert('Could not connect to server. Make sure the backend is deployed!');
+      btn.innerHTML = '☀️ Start Getting Alerts — It\'s Free';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
